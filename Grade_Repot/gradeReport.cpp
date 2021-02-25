@@ -1,38 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include <vector>
 using namespace std;
-
-
-class Student{
-    public:
-        Student(string, int);
-        string getName();
-        string getID();
-        void printReportCard();
-        
-
-    protected:
-        string fullName;
-        int id;
-
-};
-
-Student::Student( string name, int studentID){
-    fullName = name;
-    id = studentID;
-};
-
-string Student::getName(){
-    return fullName;
-};
-
-string Student::getID(){
-    return to_string(id);
-};
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 class Course{
     public:
@@ -77,10 +47,52 @@ string Course::getCourseCode(){
 };
 
 string Course::printReport(){
-    return courseCode + " "  + to_string(credits) + " "  +  letterGrade + " " + to_string(gpv);
+    return courseCode + " "  + to_string(credits) + " "  +  letterGrade + " " + to_string(gpv) + "\n";
 };
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+class Student{
+    public:
+        Student(string, int);
+        string getName();
+        string getID();
+        void printReportCard();
+        void addClass(Course);
+        void listClasses();
+
+    protected:
+        string fullName;
+        int id;
+        vector<Course> classes;
+
+};
+
+Student::Student( string name, int studentID){
+    fullName = name;
+    id = studentID;
+};
+
+string Student::getName(){
+    return fullName;
+};
+
+string Student::getID(){
+    return to_string(id);
+};
+
+void Student::addClass(Course course){
+    classes.push_back(course);
+};
+
+void Student::listClasses(){
+    for( int i = 0; i < classes.size(); i++)
+        cout << classes[i].printReport();
+};
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 class IOStreamHandler{
     public:
@@ -121,12 +133,12 @@ void IOStreamHandler::seedGradeFile(){
 
 string IOStreamHandler::readFromFile(){
     string line;
-    // while(!inFile.eof()){
-    //     string temp;
-    //     inFile >> temp;
-    //     line += " " + temp;
-    // }
-    inFile >> line;
+    while(!inFile.eof()){
+        string temp;
+        inFile >> temp;
+        line += " " + temp;
+    }
+  
     return line;
 };
 
@@ -143,13 +155,18 @@ int main() {
     IOStreamHandler iostream = IOStreamHandler();
 
     iostream.openStreams();
-   
     
-   
-
 
     Student omar = Student("omar", 1234675);
     Course cmpsci = Course("CmpSci-236", 3, 'A');
+    Course math = Course("Calc-212", 5, 'A');
+
+
+
+    omar.addClass(cmpsci);
+    omar.addClass(math);
+    omar.listClasses();
+
     iostream.writeToFile(omar, cmpsci);
     cout << iostream.readFromFile();
 
@@ -157,8 +174,3 @@ int main() {
     iostream.cleanUp();
     return 0;
 };
-
-
-
-
-using namespace std;
