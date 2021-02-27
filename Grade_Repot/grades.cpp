@@ -43,12 +43,12 @@ void IOStreamHandler::seedGradeFile(){
 
 string IOStreamHandler::readFromFile(){
     string line;
-    // while(!inFile.eof()){
-    //     string temp;
-    //     inFile >> temp;
-    //     line += " " + temp;
-    // }
-    inFile >> line;
+    while(!inFile.eof()){
+        string temp;
+        inFile >> temp;
+        line += " " + temp;
+    }
+    // inFile >> line;
     return line;
 };
 

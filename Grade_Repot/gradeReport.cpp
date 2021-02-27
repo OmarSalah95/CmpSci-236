@@ -27,13 +27,13 @@ Course::Course(string code, int credit, char grade){
             gpv = 4;
             break;
         case 'B':
-            gpv = 4;
+            gpv = 3;
             break;
         case 'C':
-            gpv = 4;
+            gpv = 2;
             break;
         case 'D':
-            gpv = 4;
+            gpv = 1;
             break;
         default:
             gpv = 0;
@@ -47,7 +47,7 @@ string Course::getCourseCode(){
 };
 
 string Course::printReport(){
-    return courseCode + " "  + to_string(credits) + " "  +  letterGrade + " " + to_string(gpv) + "\n";
+    return courseCode + " "  + to_string(credits) + " "  +  letterGrade + " " + to_string(gpv);
 };
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,13 +58,13 @@ class Student{
         string getName();
         string getID();
         void printReportCard();
-        void addClass(Course);
+        void addClasses(vector <Course>);
         void listClasses();
+        vector<Course> classes;
 
     protected:
         string fullName;
         int id;
-        vector<Course> classes;
 
 };
 
@@ -81,13 +81,13 @@ string Student::getID(){
     return to_string(id);
 };
 
-void Student::addClass(Course course){
-    classes.push_back(course);
+void Student::addClasses(vector <Course> courses){
+    classes.insert(classes.end(), courses.begin(), courses.end());
 };
 
 void Student::listClasses(){
     for( int i = 0; i < classes.size(); i++)
-        cout << classes[i].printReport();
+        cout << classes[i].printReport() << endl;
 };
 
 
@@ -101,7 +101,7 @@ class IOStreamHandler{
         void cleanUp();
         void seedGradeFile();
         string readFromFile();
-        void writeToFile(Student, Course);
+        void writeToFile(Student);
     private:
         ofstream outFile;
         ifstream inFile;
@@ -127,23 +127,51 @@ void IOStreamHandler::openStreams(){
     };
 }
 
-void IOStreamHandler::seedGradeFile(){
-    
-};
 
 string IOStreamHandler::readFromFile(){
     string line;
-    while(!inFile.eof()){
-        string temp;
-        inFile >> temp;
-        line += " " + temp;
-    }
-  
-    return line;
+    string full;
+    while(getline(inFile, line)){
+        // cout << line << endl;
+        full += line + "\n";
+    };
+    
+    return full;
 };
 
-void IOStreamHandler::writeToFile(Student student, Course course){
-    outFile << student.getName() + " " + student.getID() + " " + course.printReport() << endl;
+void IOStreamHandler::writeToFile(Student student){
+    outFile << "Student Name: " + student.getName() + "\nStudent ID: " + student.getID() << endl;
+    for (int i = 0; i < student.classes.size(); i++){
+        outFile << student.classes[i].printReport() << endl;
+    }; 
+    
+};
+
+void IOStreamHandler::seedGradeFile(){
+    Student s1 = Student("Bokow, R.", 233021);
+    Student s2 = Student("Fallin, D.", 2574063);
+    Student s3 = Student("Kingsley, M.", 2663628);
+    Course NS201 = Course("NS201", 3, 'A');
+    Course MG342 = Course("MG342", 3, 'A');
+    Course FA302 = Course("FA302", 1, 'A');
+    Course MK106 = Course("MK106", 3, 'C');
+    Course MA208 = Course("MA208", 3, 'B');
+    Course CM201 = Course("CM201", 3, 'C');
+    Course CP101 = Course("CP101", 2, 'B');
+    Course QA140 = Course("QA140", 3, 'A');
+    Course CM245 = Course("CM245", 3, 'B');
+    Course EQ521 = Course("EQ521", 3, 'A');
+    Course MK341 = Course("MK341", 3, 'A');
+    
+
+    s1.addClasses({NS201, MG342, FA302});
+    s2.addClasses({MK106, MA208, CM201, CP101});
+    s3.addClasses({QA140, CM245, EQ521, MK341, CP101});
+
+
+    IOStreamHandler::writeToFile(s1);
+    IOStreamHandler::writeToFile(s2);
+    IOStreamHandler::writeToFile(s3);
 };
 
 void IOStreamHandler::cleanUp(){
@@ -155,22 +183,11 @@ int main() {
     IOStreamHandler iostream = IOStreamHandler();
 
     iostream.openStreams();
+    iostream.seedGradeFile();
+
     
-
-    Student omar = Student("omar", 1234675);
-    Course cmpsci = Course("CmpSci-236", 3, 'A');
-    Course math = Course("Calc-212", 5, 'A');
-
-
-
-    omar.addClass(cmpsci);
-    omar.addClass(math);
-    omar.listClasses();
-
-    iostream.writeToFile(omar, cmpsci);
     cout << iostream.readFromFile();
-
-
+    
     iostream.cleanUp();
     return 0;
 };
