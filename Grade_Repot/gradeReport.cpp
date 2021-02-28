@@ -9,12 +9,14 @@ class Course{
         Course(string, int, char);
         string getCourseCode();
         string printReport();
+        int getCredits();
+        int getGPV();
 
     protected:
         string courseCode;
-        int gpv;
+        int gpv,
+            credits;
         char letterGrade;
-        int credits;
 
 };
 
@@ -24,16 +26,16 @@ Course::Course(string code, int credit, char grade){
     credits = credit;
     switch(grade){
         case 'A':
-            gpv = 4;
+            gpv = 4 * credits;
             break;
         case 'B':
-            gpv = 3;
+            gpv = 3 * credits;
             break;
         case 'C':
-            gpv = 2;
+            gpv = 2 * credits;
             break;
         case 'D':
-            gpv = 1;
+            gpv = 1 * credits;
             break;
         default:
             gpv = 0;
@@ -46,8 +48,16 @@ string Course::getCourseCode(){
     return courseCode;
 };
 
+int Course::getCredits(){
+    return credits;
+};
+
+int Course::getGPV(){
+    return gpv;
+};
+
 string Course::printReport(){
-    return courseCode + " "  + to_string(credits) + " "  +  letterGrade + " " + to_string(gpv);
+    return courseCode + "            "  + to_string(credits) + "        "  +  letterGrade + "     " + to_string(gpv);
 };
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,11 +150,18 @@ string IOStreamHandler::readFromFile(){
 };
 
 void IOStreamHandler::writeToFile(Student student){
-    outFile << "Student Name: " + student.getName() + "\nStudent ID: " + student.getID() << endl;
+    outFile << "\nStudent Name: " + student.getName() + "\nStudent ID: " + student.getID() + "\n" << endl;
+    outFile << "\033[4mCourse Code   " << "Credits   " << "Grade\033[0m" << endl;
+
+    int creditTotal = 0,
+        totalGPV=0;
     for (int i = 0; i < student.classes.size(); i++){
+        creditTotal += student.classes[i].getCredits();
+        totalGPV += student.classes[i].getGPV();
         outFile << student.classes[i].printReport() << endl;
     }; 
-    
+
+    outFile << "\nTotal Course Credits Attempted: " << creditTotal << "\nGPA: " << (totalGPV/creditTotal) << endl;
 };
 
 void IOStreamHandler::seedGradeFile(){

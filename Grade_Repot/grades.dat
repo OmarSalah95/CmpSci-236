@@ -1,18 +1,36 @@
+
 Student Name: Bokow, R.
 Student ID: 233021
-NS201 3 A 4
-MG342 3 A 4
-FA302 1 A 4
+
+[4mCourse Code   Credits   Grade[0m
+NS201            3        A     12
+MG342            3        A     12
+FA302            1        A     4
+
+Total Course Credits Attempted: 7
+GPA: 4
+
 Student Name: Fallin, D.
 Student ID: 2574063
-MK106 3 C 2
-MA208 3 B 3
-CM201 3 C 2
-CP101 2 B 3
+
+[4mCourse Code   Credits   Grade[0m
+MK106            3        C     6
+MA208            3        B     9
+CM201            3        C     6
+CP101            2        B     6
+
+Total Course Credits Attempted: 11
+GPA: 2
+
 Student Name: Kingsley, M.
 Student ID: 2663628
-QA140 3 A 4
-CM245 3 B 3
-EQ521 3 A 4
-MK341 3 A 4
-CP101 2 B 3
+
+[4mCourse Code   Credits   Grade[0m
+QA140            3        A     12
+CM245            3        B     9
+EQ521            3        A     12
+MK341            3        A     12
+CP101            2        B     6
+
+Total Course Credits Attempted: 14
+GPA: 3
