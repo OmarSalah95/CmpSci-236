@@ -112,6 +112,7 @@ class IOStreamHandler{
         void seedGradeFile();
         string readFromFile();
         void writeToFile(Student);
+        void writeToFile(string);
     private:
         ofstream outFile;
         ifstream inFile;
@@ -149,12 +150,17 @@ string IOStreamHandler::readFromFile(){
     return full;
 };
 
+void IOStreamHandler::writeToFile(string input){
+    outFile << input << endl;
+}
+
 void IOStreamHandler::writeToFile(Student student){
     outFile << "\nStudent Name: " + student.getName() + "\nStudent ID: " + student.getID() + "\n" << endl;
-    outFile << "\033[4mCourse Code   " << "Credits   " << "Grade\033[0m" << endl;
+    outFile << "\033[4mCourse Code         " << "Credits   " << "Grade\033[0m" << endl;
 
-    int creditTotal = 0,
-        totalGPV=0;
+    int creditTotal = 0;
+    double totalGPV=0;
+    
     for (int i = 0; i < student.classes.size(); i++){
         creditTotal += student.classes[i].getCredits();
         totalGPV += student.classes[i].getGPV();
@@ -165,30 +171,33 @@ void IOStreamHandler::writeToFile(Student student){
 };
 
 void IOStreamHandler::seedGradeFile(){
-    Student s1 = Student("Bokow, R.", 233021);
-    Student s2 = Student("Fallin, D.", 2574063);
-    Student s3 = Student("Kingsley, M.", 2663628);
-    Course NS201 = Course("NS201", 3, 'A');
-    Course MG342 = Course("MG342", 3, 'A');
-    Course FA302 = Course("FA302", 1, 'A');
-    Course MK106 = Course("MK106", 3, 'C');
-    Course MA208 = Course("MA208", 3, 'B');
-    Course CM201 = Course("CM201", 3, 'C');
-    Course CP101 = Course("CP101", 2, 'B');
-    Course QA140 = Course("QA140", 3, 'A');
-    Course CM245 = Course("CM245", 3, 'B');
-    Course EQ521 = Course("EQ521", 3, 'A');
-    Course MK341 = Course("MK341", 3, 'A');
-    
+    Student s1 = Student("Omar S.", 33697);
+    Course Geo = Course("Geo-109    ", 3, 'F');
+    Course PoliSci = Course("PoliSci-150", 3, 'C');
+    Course Hlth = Course("Hlth-100   ", 3, 'B');
+    Course Coms = Course("Coms-246   ", 3, 'F');
+    Course Psych = Course("Psych-109  ", 3, 'A');
+    Course Hist = Course("Hist-111   ", 3, 'A');
+    Course Eng1 = Course("Eng-101    ", 4, 'A');
+    Course Soci1 = Course("Soci-101   ", 3, 'A');
+    Course Chem1 = Course("Chem-151   ", 4, 'A');
+    Course Music = Course("Music-105  ", 3, 'A');
+    Course Phil = Course("Philo-120  ", 3, 'A');
+    Course Math1 = Course("Calc-1     ", 5, 'B');
+    Course CS1 = Course("CmpSci-235 ", 3, 'A');
+    Course Eng2 = Course("Eng-103    ", 3, 'A');
 
-    s1.addClasses({NS201, MG342, FA302});
-    s2.addClasses({MK106, MA208, CM201, CP101});
-    s3.addClasses({QA140, CM245, EQ521, MK341, CP101});
+    Course Math2 = Course("Calc-2     ", 5, 'A');
+    Course Soci2 = Course("Soci-102   ", 3, 'A');
+    Course CmpSci2 = Course("CmpSci-236 ", 3, 'A');
+    Course Bio = Course("Bio-106    ", 4, 'A');
+        
+
+    s1.addClasses({Geo, PoliSci, Hlth, Coms, Psych, Hist, Eng1, Soci1, Soci2, Chem1, Music, Phil, Math1, CS1, Eng2, Math2, Soci2, CmpSci2, Bio});
+
 
 
     IOStreamHandler::writeToFile(s1);
-    IOStreamHandler::writeToFile(s2);
-    IOStreamHandler::writeToFile(s3);
 };
 
 void IOStreamHandler::cleanUp(){
