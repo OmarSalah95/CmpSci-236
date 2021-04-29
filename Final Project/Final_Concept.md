@@ -47,7 +47,8 @@ This will be a School Managment System(SMS) built as a console application in C+
             |_ updateSelectedFamily( Overload ){** Update specified data members of selectedStudents and print user confirmation**}
             |_ updateSelectedStudentSelectedCourse(){** Update specified data members of selectedStudentSelectedCourse and print user confirmation**}
             |_ deselectAll(){ **Clear all selected objects & print user confirmation** }
-            |_ deselect(Overload){ **Clear specified selected object & print user confimation** }
+            |_ deselect(Overload){ **Clear specified selected object & print user confimation** }_
+            |_ Exit(){**Ask if user would like to save session data to file, or exit without saving clean up streams, run deconstructors, and terminate repl exiting the SMS**}
 
         Data Fields:
             |_ <vector>{Student} roster
@@ -115,21 +116,19 @@ This will be a School Managment System(SMS) built as a console application in C+
 ### Basic REPL implementation example:
 ```CPP
         string commandCode;
-        
+
         int appRunning = 1;
         printInstructionList();
 
 
         while(appRunning){
-        cout << "Please enter a command";
-        cin >> commandCode;
+            cout << "Please enter a command";
+            cin >> commandCode;
 
-        if(commandCodeInCommandList()){
-                runCommand(commandCode);
-        } else{
-            cout << "Input error, please re-enter command"
-        }
-
-
+            if(commandCodeInCommandList()){
+                    runCommand(commandCode);
+            } else{
+                cout << "Input error, please re-enter command"
+            }
 
 ```
