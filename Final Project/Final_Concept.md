@@ -112,4 +112,24 @@ This will be a School Managment System(SMS) built as a console application in C+
             |_ gradePointValue
             |_ grade
  ~~~        
+### Basic REPL implementation example:
+```CPP
+        string commandCode;
+        
+        int appRunning = 1;
+        printInstructionList();
 
+
+        while(appRunning){
+        cout << "Please enter a command";
+        cin >> commandCode;
+
+        if(commandCodeInCommandList()){
+                runCommand(commandCode);
+        } else{
+            cout << "Input error, please re-enter command"
+        }
+
+
+
+```
