@@ -1,6 +1,6 @@
 //Decleration of Date Class
 #include <string>
-
+#include <iostream>
 using namespace std;
 
 
@@ -30,6 +30,21 @@ public:
 	bool operator==(const Date&);
 	bool operator>(const Date&);
 	Date operator+(int);
+	
+	friend ostream& operator<<(ostream& out, Date& d){
+		out << d.day <<"/"<<d.month<<"/"<<d.year<<endl;
+		return out;
+	}
+
+	friend istream& operator>>(istream& in, Date& d){
+		char ch;
+		in>> d.day;
+		in>> ch;
+		in>> d.month;
+		in>> ch;
+		in>> d.year;
+		return in;
+	}
 
 };
 
