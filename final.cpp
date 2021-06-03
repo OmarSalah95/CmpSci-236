@@ -19,11 +19,12 @@ class MilitaryTime
 	public:
 		MilitaryTime();
 		MilitaryTime(string civTime){ this-> time12 = civTime; this-> convert();};
+        MilitaryTime(int time12);
 		void setTime(string);
 		friend ostream& operator<<(ostream&, const MilitaryTime&);
 		friend istream& operator<<(istream&, const MilitaryTime&);
 		operator int();
-		operator MilitaryTime(int);
+		
 
 	private:
 		string time12,
@@ -44,24 +45,57 @@ MilitaryTime::operator int(){
 	return stoi(temp);
 }
 
-intTime::operator MilitaryTime(int time) {
-	string temp = itos(time),
-			tempMer;
+MilitaryTime::MilitaryTime(int time)
+{
+    string s = to_string(time);
 
-	int tempH = stoi(temp.substr(0,1)),
-		tempM = stoi(temp.substr(2,3));
+    switch (s.length())
+    {
+    case 1:
+    case 2:
+    {
+        time12 = "12:" + (time > 59 || time < 0 ? "00" : s) + " AM";
+        convert();
+        break;
+    }
+    case 3:
+    {
+        s = "0" + s;
+    }
+    case 4:
+    {
+        int hour = stoi(s.substr(0, 2));
+        int mins = stoi(s.substr(2, 2));
 
-	if(stoi(tempH) > 12){
-		tempH-=12;
-		tempMer = " PM";
-	}else{
-		tempMer=" AM"
-	}
-	temp = itos(tempH)+":"+itos(tempM)+tempMer;
+        if (hour < 0 || hour > 23 || mins > 59 || mins < 0)
+        {
+            time12 = "12:00 AM";
+            convert();
+            break;
+        }
 
+        if (time >= 1300)
+        {
+            time12 = to_string(hour - 12) + ":" + s.substr(2, 2);
+        }
+        else
+        {
+            time12 = s.substr(0, 2) + ":" + s.substr(2, 2);
+        }
 
-    MilitaryTime m(temp);
-    return m;
+        time12 += (time >= 1200 ? " PM" : " AM");
+
+        convert();
+        break;
+    }
+
+    default:
+    {
+        time12 = "12:00 AM";
+        convert();
+        break;
+    }
+    }
 }
 
 void MilitaryTime::convert() {
